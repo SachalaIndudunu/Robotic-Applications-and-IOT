@@ -1,0 +1,187 @@
+#include <Servo.h>
+
+#include <Ultrasonic.h>
+
+Ultrasonic u = Ultrasonic(3,2);
+
+Servo s = Servo();
+
+void setup(){
+  
+
+  Serial.begin(9600);
+
+  // pinMode(9,OUTPUT);
+
+  s.attach(4);
+  s.write(94); // set servo to 90 degrees
+  delay(500);
+
+  int speed = 100;
+
+  //right motor
+  pinMode(6,OUTPUT);
+  pinMode(7,OUTPUT);
+  pinMode(5,OUTPUT);
+  analogWrite(5,speed+10);
+
+  //left mortor
+  pinMode(13,OUTPUT);
+  pinMode(12,OUTPUT);
+  pinMode(11,OUTPUT);
+  analogWrite(11,speed);
+
+
+}
+
+void loop(){
+
+  int x = Serial.read();
+  int distance = u.distanceRead();
+  delay(50);
+
+  if(distance < 25){
+
+    // // put your main code here, to run repeatedly:
+    // tone(9, 3000); // Send 1KHz sound signal...
+    // delay(300);        // ...for 1 sec
+    // noTone(9);     // Stop sound...
+    // // delay(1000);        // ...for 1sec
+
+    stop();
+    delay(100);
+    backword();
+    delay(500);
+    stop();
+    delay(100);
+  
+  //Servo look right
+    s.write(30);
+    delay(500);
+    int distanceRight = u.read();
+    delay(50);
+
+  //Servo look left
+    s.write(150);
+    delay(500);
+    int distanceLeft = u.read();
+    delay(50);
+
+    if(distanceRight > distance){
+
+      s.write(95); // set servo to 90 degrees
+      delay(500);
+
+      right();
+      delay(200);
+
+      stop();
+      delay(100);
+    }else{
+      s.write(90); // set servo to 90 degrees
+      delay(500);
+
+      left();
+      delay(200);
+
+      stop();
+      delay(100);
+    }
+
+  }
+
+  if (x == '3'){
+      stop();
+      delay(100);
+
+      right();
+      delay(200);
+
+      stop();
+      delay(100);
+  }
+
+  if (x == '1'){
+    stop();
+    delay(100);
+    forword();
+  }
+  if (x == '2'){
+    stop();
+    delay(100);
+    backword();
+  }
+  if (x == '5'){
+    stop();
+  }
+  if (x == '4'){
+      stop();
+      delay(100);
+
+      left();
+      delay(200);
+
+      stop();
+      delay(100);
+
+  }
+
+
+}
+
+
+void forword(){
+
+
+  digitalWrite(6,HIGH);
+  digitalWrite(7,LOW);
+
+  digitalWrite(13,HIGH);
+  digitalWrite(12,LOW);
+
+
+}
+
+void backword(){
+
+  digitalWrite(6,LOW);
+  digitalWrite(7,HIGH);
+
+  digitalWrite(13,LOW);
+  digitalWrite(12,HIGH);
+
+
+}
+
+void right(){
+
+  digitalWrite(7,HIGH);
+  digitalWrite(6,LOW);
+
+  digitalWrite(13,HIGH);
+  digitalWrite(12,LOW);
+
+
+}
+
+void left(){
+
+  digitalWrite(6,HIGH);
+  digitalWrite(7,LOW);
+
+  digitalWrite(12,HIGH);
+  digitalWrite(13,LOW);
+
+
+}
+
+void stop(){
+
+  digitalWrite(6,LOW);
+  digitalWrite(7,LOW);
+
+  digitalWrite(13,LOW);
+  digitalWrite(12,LOW);
+
+
+}
