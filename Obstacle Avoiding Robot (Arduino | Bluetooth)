@@ -2,7 +2,7 @@
 
 #include <Ultrasonic.h>
 
-Ultrasonic u = Ultrasonic(3,2);
+Ultrasonic u = Ultrasonic(3,2); //Trig->3 Echo->2
 
 Servo s = Servo();
 
@@ -13,22 +13,22 @@ void setup(){
 
   // pinMode(9,OUTPUT);
 
-  s.attach(4);
+  s.attach(4); //Defines servomotor's orange pin which is connected to the pin 4 of the arduino board
   s.write(94); // set servo to 90 degrees
   delay(500);
 
   int speed = 100;
 
   //right motor
-  pinMode(6,OUTPUT);
-  pinMode(7,OUTPUT);
-  pinMode(5,OUTPUT);
+  pinMode(6,OUTPUT); //IN4
+  pinMode(7,OUTPUT); //IN3
+  pinMode(5,OUTPUT); //ENB
   analogWrite(5,speed+10);
 
   //left mortor
-  pinMode(13,OUTPUT);
-  pinMode(12,OUTPUT);
-  pinMode(11,OUTPUT);
+  pinMode(13,OUTPUT); //IN1
+  pinMode(12,OUTPUT); //IN2
+  pinMode(11,OUTPUT); //ENA
   analogWrite(11,speed);
 
 
